@@ -1,6 +1,7 @@
 #include <iostream>
 #pragma once
 
+//TODO: make a input processor
 enum GameState{
     GAME_ACTIVE,
     GAME_QUIT,
@@ -19,6 +20,6 @@ class game
         ~game();
 
         void Init();
-        void Update();
+        void Update(float deltaTime);
         void Render();
 };

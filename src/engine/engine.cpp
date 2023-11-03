@@ -3,9 +3,10 @@
 //TODO:
 //Make a way to change the position of the window
 //Add a way to set the name of the game and make it the name of the window
-engine::engine(game mygame) : screen_width(mygame.width), screen_height(mygame.height)
+/*engine::engine()
 {
-    window = SDL_CreateWindow("It Begins", 30, 30, screen_width, screen_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE); // MAKE RESIZABLE
+    currgame = mygame;
+    window = SDL_CreateWindow("It Begins", 30, 30, currgame.width, currgame.height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE); // MAKE RESIZABLE
     if(!window)
         std::cout << "could not make window";
 
@@ -25,8 +26,38 @@ engine::engine(game mygame) : screen_width(mygame.width), screen_height(mygame.h
     {
         std::cout << "Glad was not initialized" << std::endl;
     }
+
+    // OpenGL configuration
+    // --------------------
+    glViewport(0, 0, currgame.width, currgame.height);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // initialize game
+    // ---------------
+    currgame.Init();
+
+    float currentFrame = SDL_GetPerformanceCounter();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+}*/
+void engine::loop()
+{
+    currgame.Update(deltaTime);
+
+    SDL_Event e;
+    if(SDL_PollEvent(&e))
+    {
+        if(e.type == SDL_QUIT)
+        {
+            std::cout << "Quitting SDL";
+            currgame.State = GAME_QUIT;
+        }   
+    }
+
 }
+
 engine::~engine()
 {
-    
+
 }

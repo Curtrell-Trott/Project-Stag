@@ -13,7 +13,7 @@ void game::Init()
 {
 
 }
-void game::Update()
+void game::Update(float deltaTime)
 {
 
 }
