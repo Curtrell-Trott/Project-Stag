@@ -4,60 +4,19 @@
 
 #include "engine/engine.h"
 #include "engine/game.h"
-#include "engine/resourse_manager.h"
+#include "engine/resource_manager.h"
 
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 
-SDL_Window *window;
-SDL_GLContext context;
-
 game stag(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-void gameInit();
-
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
 
 
 int main(int argv, char** args) 
 {
-    gameInit();
+    SDL_Window *window;
+    SDL_GLContext context;
 
-    while (stag.State == GAME_ACTIVE)
-    {
-        float currentFrame = SDL_GetPerformanceCounter();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-
-        SDL_Event e;
-        if(SDL_PollEvent(&e))
-        {
-            stag.Update(deltaTime);
-            if(e.type == SDL_QUIT)
-            {
-                std::cout << "Quitting Game";
-                stag.State = GAME_QUIT;
-            }   
-        }
-
-        //render
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        stag.Render();
-
-        SDL_GL_SwapWindow(window);
-    }
-
-    // delete all resources as loaded using the resource manager
-    // ---------------------------------------------------------
-    ResourceManager::Clear();
-
-    return 0;
-}
-
-void gameInit()
-{
     window = SDL_CreateWindow("It Begins", 30, 30, stag.width, stag.height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE); // MAKE RESIZABLE
     if(!window)
         std::cout << "could not make window";
@@ -66,6 +25,8 @@ void gameInit()
         std::cout << "could not init window";    
 
     context = SDL_GL_CreateContext(window); 
+    if(!context)
+        std::cout << "could not make context";
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -88,4 +49,42 @@ void gameInit()
     // initialize game
     // ---------------
     stag.Init();
+
+    // deltaTime variables
+    // -------------------
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
+
+    while (stag.State == GAME_ACTIVE)
+    {
+        float currentFrame = SDL_GetPerformanceCounter();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        stag.Update(deltaTime);
+        
+        SDL_Event e;
+        if(SDL_PollEvent(&e))
+        {
+            if(e.type == SDL_QUIT)
+            {
+                std::cout << "Quitting Game";
+                stag.State = GAME_QUIT;
+            }   
+        }
+
+        //render
+        glClearColor(0.49f, 0.30f, 0.57f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        stag.Render();
+
+        SDL_GL_SwapWindow(window);
+    }
+
+    // delete all resources as loaded using the resource manager
+    // ---------------------------------------------------------
+    ResourceManager::Clear();
+    
+    //SDL terminate thingie
+    return 0;
 }

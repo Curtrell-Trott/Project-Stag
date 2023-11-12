@@ -4,7 +4,7 @@ LIB = -lmingw32 -lSDL2main -lSDL2
 
 OBJDIR = bin
 SRCDIR = src
-INCDIR = -Isrc -Isrc/engine -Isrc/engine/*/ -Isrc/engine/SDL2 -Llib
+INCDIR = -Isrc -Isrc/engine -Isrc/engine/*/ -Isrc/engine/SDL2 -Ires -Llib
 
 APP = build/main
 SRC = $(wildcard src/*.cpp)  $(wildcard src/*/*.cpp) $(wildcard src/*/*.c) $(wildcard src/*/*/*.cpp) $(wildcard src/*/*/*.c)

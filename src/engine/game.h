@@ -1,4 +1,5 @@
 #include <iostream>
+#include "glm/glm.hpp"
 #pragma once
 
 //TODO: make a input processor
@@ -15,8 +16,11 @@ class game
     public:
         GameState State;
         unsigned int width, height;
+
+
         
         game(unsigned int width, unsigned int height);
+        game();
         ~game();
 
         void Init();
