@@ -1,5 +1,12 @@
 #include <iostream>
+#include <vector>
+#include "SDL2/SDL.h"
 #include "glm/glm.hpp"
+
+#include "resource_manager.h"
+#include "sprite_renderer.h"
+#include "game_object.h"
+#include "../player.h"
 #pragma once
 
 //TODO: make a input processor
@@ -9,15 +16,19 @@ enum GameState{
     GAME_MENU
 };
 
+// Initial size of the player paddle
+const glm::vec2 PLAYER_SIZE(100.0f, 100.0f);
+// Initial velocity of the player paddle
+const float PLAYER_VELOCITY(500.0f);
+
 class game
 {
     private:
-    
+        //std::vector<GameObject> ObjList;
+
     public:
         GameState State;
         unsigned int width, height;
-
-
         
         game(unsigned int width, unsigned int height);
         game();
@@ -25,5 +36,8 @@ class game
 
         void Init();
         void Update(float deltaTime);
+        void AddObject(GameObject gameObject);
+        void ProcessInput(float deltaTime);
         void Render();
+        
 };

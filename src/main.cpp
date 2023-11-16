@@ -2,7 +2,6 @@
 #include "SDL2/SDL.h"
 #include "glad/glad.h"
 
-#include "engine/engine.h"
 #include "engine/game.h"
 #include "engine/resource_manager.h"
 
@@ -62,8 +61,9 @@ int main(int argv, char** args)
         lastFrame = currentFrame;
 
         stag.Update(deltaTime);
+        stag.ProcessInput(deltaTime);
         
-        SDL_Event e;
+        /*SDL_Event e;
         if(SDL_PollEvent(&e))
         {
             if(e.type == SDL_QUIT)
@@ -71,7 +71,7 @@ int main(int argv, char** args)
                 std::cout << "Quitting Game";
                 stag.State = GAME_QUIT;
             }   
-        }
+        }*/
 
         //render
         glClearColor(0.49f, 0.30f, 0.57f, 1.0f);

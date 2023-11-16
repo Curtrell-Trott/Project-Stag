@@ -1,8 +1,7 @@
 #include "game.h"
-#include "resource_manager.h"
-#include "sprite_renderer.h"
 
 SpriteRenderer  *Renderer;
+GameObject      *Player;
 
 game::game()
 {
@@ -21,7 +20,7 @@ void game::Init()
 {
     // load shaders
     //ResourceManager::LoadShader("shaders/sprite.vert", "shaders/sprite.frag", nullptr, "sprite");
-    ResourceManager::LoadShader("D:\\programming\\C++\\Project Stag\\res\\shaders\\sprite.vert", "D:\\programming\\C++\\Project Stag\\res\\shaders\\sprite.frag", nullptr, "sprite");
+    ResourceManager::LoadShader("res\\shaders\\sprite.vert", "res\\shaders\\sprite.frag", nullptr, "sprite");
     // configure shaders
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width), static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
     ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
@@ -29,14 +28,40 @@ void game::Init()
     // set render-specific controls
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     // load textures
-    ResourceManager::LoadTexture("D:\\programming\\C++\\Project Stag\\res\\sprites\\image.png", true, "test");
+    ResourceManager::LoadTexture("res\\sprites\\image.png", true, "princess");
+    
+    //game object config
+    GameObject.test = 4;
+    std::cout << GameObject.test;
+    //glm::vec2 playerPos = glm::vec2(this->width / 2.0f, this->height / 2.0f);
+    //Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("princess"));
 }
 
 void game::Update(float deltaTime)
 {
 
 }
+void game::ProcessInput(float deltaTime)
+{
+    SDL_Event e;
+    if(SDL_PollEvent(&e))
+    {
+        if(e.type == SDL_QUIT)
+        {
+            std::cout << "Quitting Game";
+            this->State = GAME_QUIT;
+        }   
+    }     
+}
+
+void game::AddObject(GameObject gameObject)
+{
+    //ObjList.push_back(gameObject);
+}
+
 void game::Render()
 {
-    Renderer->DrawSprite(ResourceManager::GetTexture("test"), glm::vec2(100.0f, 100.0f), glm::vec2(100.0f, 100.0f), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+    if(this->State == GAME_ACTIVE){
+        Player->Draw(*Renderer);
+    }
 }
