@@ -24,7 +24,6 @@ const float PLAYER_VELOCITY(500.0f);
 class game
 {
     private:
-        //std::vector<GameObject> ObjList;
 
     public:
         GameState State;

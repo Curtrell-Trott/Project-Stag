@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include "SDL2/SDL.h"
 #include "glad/glad.h"
 
@@ -10,6 +11,7 @@ const unsigned int SCREEN_HEIGHT = 600;
 
 game stag(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+std::list<GameObject*> GameObject::ObjList;
 
 int main(int argv, char** args) 
 {
