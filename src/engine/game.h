@@ -24,7 +24,7 @@ const float PLAYER_VELOCITY(500.0f);
 class game
 {
     private:
-
+        
     public:
         GameState State;
         unsigned int width, height;

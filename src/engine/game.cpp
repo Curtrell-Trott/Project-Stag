@@ -1,7 +1,6 @@
 #include "game.h"
 
 SpriteRenderer  *Renderer;
-//GameObject      *Player;
 
 game::game()
 {
@@ -30,17 +29,29 @@ void game::Init()
     // load textures
     ResourceManager::LoadTexture("res\\sprites\\image.png", true, "princess");
     
-    //game object config
-    //glm::vec2 playerPos = glm::vec2(this->width / 2.0f, this->height / 2.0f);
-    //Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("princess"));
-    Player player;
+    //game object init
+    Player *player = new Player();
 
-    std::cout << GameObject::ObjList.empty();
+    //Run Init on all objects
+    if(this->State == GAME_ACTIVE)
+    {
+        for(GameObject* obj : GameObject::ObjList)
+        {
+            obj -> Init();
+        }
+    }
 }
 
 void game::Update(float deltaTime)
 {
-
+    //Run Update on all objects
+    if(this->State == GAME_ACTIVE)
+    {
+        for(GameObject* obj : GameObject::ObjList)
+        {
+            obj -> Update(deltaTime);
+        }
+    }
 }
 
 void game::ProcessInput(float deltaTime)
@@ -53,12 +64,24 @@ void game::ProcessInput(float deltaTime)
             std::cout << "Quitting Game";
             this->State = GAME_QUIT;
         }   
+    }
+
+    //Run Init on all objects
+    if(this->State == GAME_ACTIVE){
+        for(GameObject* obj : GameObject::ObjList)
+        {
+            obj -> ProcessInput(deltaTime);
+        }
     }     
 }
 
 void game::Render()
 {
     if(this->State == GAME_ACTIVE){
-        //Player->Draw(*Renderer);
+        for(GameObject* obj : GameObject::ObjList)
+        {
+            obj -> Draw(*Renderer);
+        }
+        //GameObject::ObjList.front() -> Draw(*Renderer);
     }
 }

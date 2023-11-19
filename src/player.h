@@ -1,4 +1,5 @@
 #include <iostream>
+#include "engine/resource_manager.h"
 #include "engine/game_object.h"
 
 class Player : public GameObject
@@ -8,5 +9,4 @@ class Player : public GameObject
     public:
     Player();
     ~Player();
-
 };
