@@ -3,10 +3,10 @@
 #include "SDL2/SDL.h"
 #include "glm/glm.hpp"
 
-#include "resource_manager.h"
-#include "sprite_renderer.h"
-#include "game_object.h"
-#include "../player.h"
+#include "engine/resource_manager.h"
+#include "engine/sprite_renderer.h"
+#include "engine/game_object.h"
+#include "player.h"
 #pragma once
 
 //TODO: make a input processor
@@ -34,9 +34,9 @@ class game
         ~game();
 
         void Init();
-        void Update(float deltaTime);
+        void Update(double deltaTime);
         void AddObject(GameObject gameObject);
-        void ProcessInput(float deltaTime);
+        void ProcessInput(double deltaTime);
         void Render();
         
 };

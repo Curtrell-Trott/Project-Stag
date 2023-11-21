@@ -3,7 +3,7 @@
 #include "SDL2/SDL.h"
 #include "glad/glad.h"
 
-#include "engine/game.h"
+#include "game.h"
 #include "engine/resource_manager.h"
 
 const unsigned int SCREEN_WIDTH = 800;
@@ -53,27 +53,22 @@ int main(int argv, char** args)
 
     // deltaTime variables
     // -------------------
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
+    Uint64 currentFrame = SDL_GetPerformanceCounter();
+    Uint64 lastFrame = 0.0f;
+    double deltaTime = 0.0f;
 
     while (stag.State == GAME_ACTIVE)
     {
-        float currentFrame = SDL_GetPerformanceCounter();
-        deltaTime = currentFrame - lastFrame;
+        
         lastFrame = currentFrame;
+        currentFrame = SDL_GetPerformanceCounter();
+
+        deltaTime =  ((currentFrame - lastFrame)*1000 / (double)SDL_GetPerformanceFrequency());
 
         stag.Update(deltaTime);
         stag.ProcessInput(deltaTime);
         
-        /*SDL_Event e;
-        if(SDL_PollEvent(&e))
-        {
-            if(e.type == SDL_QUIT)
-            {
-                std::cout << "Quitting Game";
-                stag.State = GAME_QUIT;
-            }   
-        }*/
+        //Maybe add a fixed update?
 
         //render
         glClearColor(0.49f, 0.30f, 0.57f, 1.0f);

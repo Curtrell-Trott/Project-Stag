@@ -2,7 +2,8 @@
 #include "glm/glm.hpp"
 #include <list>
 #include <iostream>
-
+#include "SDL2/SDL.h"
+ 
 #include "texture.h"
 #include "sprite_renderer.h"
 #pragma once
@@ -32,6 +33,6 @@ class GameObject
         virtual void Draw(SpriteRenderer &renderer);
         
         virtual void Init();
-        virtual void Update(float deltaTime);
-        virtual void ProcessInput(float deltaTime);
+        virtual void Update(double deltaTime);
+        virtual void ProcessInput(double deltaTime, SDL_Event e);
 };

@@ -42,7 +42,7 @@ void game::Init()
     }
 }
 
-void game::Update(float deltaTime)
+void game::Update(double deltaTime)
 {
     //Run Update on all objects
     if(this->State == GAME_ACTIVE)
@@ -54,7 +54,7 @@ void game::Update(float deltaTime)
     }
 }
 
-void game::ProcessInput(float deltaTime)
+void game::ProcessInput(double deltaTime)
 {
     SDL_Event e;
     if(SDL_PollEvent(&e))
@@ -70,7 +70,7 @@ void game::ProcessInput(float deltaTime)
     if(this->State == GAME_ACTIVE){
         for(GameObject* obj : GameObject::ObjList)
         {
-            obj -> ProcessInput(deltaTime);
+            obj -> ProcessInput(deltaTime, e);
         }
     }     
 }
@@ -82,6 +82,5 @@ void game::Render()
         {
             obj -> Draw(*Renderer);
         }
-        //GameObject::ObjList.front() -> Draw(*Renderer);
     }
 }
