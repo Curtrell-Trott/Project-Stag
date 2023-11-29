@@ -59,7 +59,12 @@ int main(int argv, char** args)
 
     while (stag.State == GAME_ACTIVE)
     {
-        
+        //NOTE: MAYBE DONT DO THIS EVERY UPDATE
+        int width, height;
+        SDL_GetWindowSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+
+        //Calculate deltatime
         lastFrame = currentFrame;
         currentFrame = SDL_GetPerformanceCounter();
 

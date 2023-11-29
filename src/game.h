@@ -6,6 +6,7 @@
 #include "engine/resource_manager.h"
 #include "engine/sprite_renderer.h"
 #include "engine/game_object.h"
+#include "engine/input_handler.h"
 #include "player.h"
 #pragma once
 
@@ -38,5 +39,7 @@ class game
         void AddObject(GameObject gameObject);
         void ProcessInput(double deltaTime);
         void Render();
+        void DoCollision(GameObject* obj, std::list<GameObject*> checkList);
+        bool CheckCollisions(GameObject &one, GameObject &two);
         
 };
