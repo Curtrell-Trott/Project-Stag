@@ -33,7 +33,7 @@ class GameObject
         virtual void Draw(SpriteRenderer &renderer);
         virtual void Init();
         virtual void Update(double deltaTime);
-        virtual void ProcessInput(double deltaTime, SDL_Event e);
-        virtual void OnCollision(GameObject obj);
+        //virtual void ProcessInput(double deltaTime, SDL_Event e);
+        virtual void OnCollision(GameObject* obj);
         
 };

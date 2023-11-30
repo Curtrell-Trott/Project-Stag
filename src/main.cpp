@@ -1,3 +1,7 @@
+#include "engine/imgui/imgui.h"
+#include "engine/imgui/imgui_impl_sdl2.h"
+#include "engine/imgui/imgui_impl_opengl3.h"
+
 #include <iostream>
 #include <list>
 #include "SDL2/SDL.h"
@@ -47,6 +51,18 @@ int main(int argv, char** args)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // ImGui Setup
+    // --------------------
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+    ImGui_ImplOpenGL3_Init();
+    ImGui_ImplSDL2_InitForOpenGL(window, context);
+
+
     // initialize game
     // ---------------
     stag.Init();
@@ -59,34 +75,62 @@ int main(int argv, char** args)
 
     while (stag.State == GAME_ACTIVE)
     {
+        //Draw ImGUI things
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+
+        //ImGui::ShowDemoWindow(); // Show demo window! :)
+
         //NOTE: MAYBE DONT DO THIS EVERY UPDATE
         int width, height;
         SDL_GetWindowSize(window, &width, &height);
-        glViewport(0, 0, width, height);
 
         //Calculate deltatime
         lastFrame = currentFrame;
         currentFrame = SDL_GetPerformanceCounter();
 
         deltaTime =  ((currentFrame - lastFrame)*1000 / (double)SDL_GetPerformanceFrequency());
-
+        
+        //Update functions
         stag.Update(deltaTime);
         stag.ProcessInput(deltaTime);
-        
+
+        SDL_Event e;
+        if(SDL_PollEvent(&e))
+        {
+            ImGui_ImplSDL2_ProcessEvent(&e);
+            if(e.type == SDL_QUIT)
+            {
+                std::cout << "Quitting Game";
+                stag.State = GAME_QUIT;
+            }   
+        }
         //Maybe add a fixed update?
 
         //render
+        glViewport(0, 0, width, height);
         glClearColor(0.49f, 0.30f, 0.57f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         stag.Render();
+        
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         SDL_GL_SwapWindow(window);
     }
 
+    // Cleanup
     // delete all resources as loaded using the resource manager
     // ---------------------------------------------------------
     ResourceManager::Clear();
     
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+
+    SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(window);
     //SDL terminate thingie
     return 0;
 }

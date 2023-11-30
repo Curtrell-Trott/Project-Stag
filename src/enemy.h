@@ -4,12 +4,11 @@
 #include "engine/collider.h"
 #pragma once
 
-class Player : public GameObject
+class Enemy : public GameObject
 {
     private:
 
     public:
-        Player();
-        void ProcessInput(double deltaTime);
-        ~Player();
+        Enemy();
+        ~Enemy();
 };

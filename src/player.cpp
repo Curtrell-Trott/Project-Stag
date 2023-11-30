@@ -6,7 +6,6 @@ Player::Player()
     Sprite = ResourceManager::GetTexture("princess");
     //Size = glm::vec2(-200, 200);
     Size = glm::vec2((Sprite.Width/20)*-1.0f, (Sprite.Height/20));
-    HurtBox.MakeCol(Position.x*1, Position.y*1, Size.x*1, Size.y*1); // NOTE: maybe decrease the hurtbox size
     ObjList.push_front(this);
 }
 
@@ -18,7 +17,7 @@ void GameObject::Update(double deltaTime)
 {
     
 }
-void GameObject::ProcessInput(double deltaTime, SDL_Event e)
+void Player::ProcessInput(double deltaTime)
 {
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     if(keystate[SDL_SCANCODE_UP])
@@ -32,8 +31,9 @@ void GameObject::ProcessInput(double deltaTime, SDL_Event e)
     
 }
 
-void GameObject::OnCollision(GameObject obj)
+void GameObject::OnCollision(GameObject* obj)
 {
+    std::cout << "made collision" << std::endl;
     //Do something with the object that has been collided with
 }
 

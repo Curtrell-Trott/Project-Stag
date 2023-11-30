@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <list>
 #include "SDL2/SDL.h"
 #include "glm/glm.hpp"
 
@@ -7,7 +9,9 @@
 #include "engine/sprite_renderer.h"
 #include "engine/game_object.h"
 #include "engine/input_handler.h"
+
 #include "player.h"
+#include "enemy.h"
 #pragma once
 
 //TODO: make a input processor
@@ -17,10 +21,6 @@ enum GameState{
     GAME_MENU
 };
 
-// Initial size of the player paddle
-const glm::vec2 PLAYER_SIZE(100.0f, 100.0f);
-// Initial velocity of the player paddle
-const float PLAYER_VELOCITY(500.0f);
 
 class game
 {
