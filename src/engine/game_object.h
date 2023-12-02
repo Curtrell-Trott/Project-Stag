@@ -14,8 +14,9 @@
 class GameObject
 {
     private:
-
+    
     public:
+        static float Timer(float time);
         static std::list<GameObject*> ObjList;
         // object state
         glm::vec2   Position, Size, Velocity;

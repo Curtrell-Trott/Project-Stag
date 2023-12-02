@@ -15,3 +15,9 @@ void GameObject::Draw(SpriteRenderer &renderer)
 {
     renderer.DrawSprite(this->Sprite, this->Position, this->Size, this->Rotation, this->Color);
 }
+
+float GameObject::Timer(float time)
+{
+    time -= 0.1f;
+    return time;
+}

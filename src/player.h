@@ -7,9 +7,11 @@
 class Player : public GameObject
 {
     private:
-
+        float speed;
+        float attackTime;
     public:
         Player();
         void ProcessInput(double deltaTime);
+        //void Update(double deltaTime) override;
         ~Player();
 };

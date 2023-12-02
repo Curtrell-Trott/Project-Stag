@@ -35,7 +35,11 @@ void game::Init()
     // set render-specific controls
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     // load textures
-    ResourceManager::LoadTexture("res\\sprites\\image.png", true, "princess");
+    ResourceManager::LoadTexture("res\\sprites\\princess_idle.png", true, "princess_idle");
+    ResourceManager::LoadTexture("res\\sprites\\princess_forward.png", true, "princess_forward");
+    ResourceManager::LoadTexture("res\\sprites\\princess_back.png", true, "princess_back");
+    ResourceManager::LoadTexture("res\\sprites\\princess_swing1.png", true, "princess_swing1");
+    ResourceManager::LoadTexture("res\\sprites\\princess_swing2.png", true, "princess_swing2");
     ResourceManager::LoadTexture("res\\sprites\\enemy.png", true, "enemy");
     ResourceManager::LoadTexture("res\\sprites\\Sprite-0001.png", true, "box");
 
@@ -44,8 +48,7 @@ void game::Init()
     
     //game object init
     player = new Player();
-    enemy = new GameObject(glm::vec2(500, 600 / 2.0f), glm::vec2((ResourceManager::GetTexture("enemy").Width/18), (ResourceManager::GetTexture("enemy").Height/18)), ResourceManager::GetTexture("enemy"));
-    //box = new GameObject(glm::vec2(player -> Position.x, player -> Position.y), glm::vec2(160, 149), ResourceManager::GetTexture("box"));
+    enemy = new GameObject(glm::vec2(1200, 300), glm::vec2((ResourceManager::GetTexture("enemy").Width/18), (ResourceManager::GetTexture("enemy").Height/18)), ResourceManager::GetTexture("enemy"));
 
 
     //const Uint8* test = InputMap::keystate[SDL_SCANCODE_UP];
@@ -63,15 +66,7 @@ void game::Init()
 
 void game::Update(double deltaTime)
 {
-    ImGui::Begin("Hello, world!");
-    ImGui::Text("Player Pos: %f, %f", player->Position.x, player->Position.y);
-    ImGui::Text("Enemy Pos: %f, %f", enemy->Position.x,  enemy->Position.y);
-
-    ImGui::Text("Player Size: %f, %f", std::abs(player->Size.x), player->Size.y);
-    ImGui::Text("Enemy Size: %f, %f", enemy->Size.x,  enemy->Size.y);
-
-    ImGui::Text("Player Pos & Size: %f, %f", player->Position.x + std::abs(player->Size.x), player->Position.y + player->Size.y);
-    ImGui::Text("Enemy Pos & Size: %f, %f", enemy->Position.x + enemy->Size.x,  enemy->Position.y + enemy->Size.y); 
+    ImGui::Begin("Hello");
     //ImDrawList::AddRect(ImVec2(0,0), ImVec2(400,400), 1, 0, 0, 0);
     ImGui::GetForegroundDrawList()->AddRect(ImVec2(player -> Position.x, player -> Position.y), ImVec2(player -> Position.x + player -> Size.x, player -> Position.y + player -> Size.y), IM_COL32(0, 255, 0, 200), 0, 0, 10);
     ImGui::End();
@@ -110,12 +105,6 @@ void game::DoCollision(GameObject *obj, std::list<GameObject*> checkList)
             if(CheckCollisions(*obj, *c_obj))
                 obj -> OnCollision(c_obj);
         }
-    //iterate thru each obj in the list and check collision with the obj given
-    /*for(GameObject* compareObj : checkList)
-    {
-        if(CheckCollision(obj, compareObj))
-            obj -> OnCollision(compareObj);
-    }*/
 }
 
 bool game::CheckCollisions(GameObject &one, GameObject &two) // AABB - AABB collision
@@ -129,4 +118,5 @@ bool game::CheckCollisions(GameObject &one, GameObject &two) // AABB - AABB coll
     // collision only if on both axes
     return collisionX && collisionY;
 }
+
 
