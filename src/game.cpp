@@ -8,6 +8,7 @@
 SpriteRenderer  *Renderer;
 Player *player;
 GameObject  *enemy;
+GameObject  *box;
 
 game::game()
 {
@@ -36,13 +37,15 @@ void game::Init()
     // load textures
     ResourceManager::LoadTexture("res\\sprites\\image.png", true, "princess");
     ResourceManager::LoadTexture("res\\sprites\\enemy.png", true, "enemy");
+    ResourceManager::LoadTexture("res\\sprites\\Sprite-0001.png", true, "box");
 
     //start input handler
     //InputMap::Handler();
     
     //game object init
     player = new Player();
-    enemy = new GameObject(glm::vec2(500, 600 / 2.0f), glm::vec2((ResourceManager::GetTexture("enemy").Width/23), (ResourceManager::GetTexture("enemy").Height/23)), ResourceManager::GetTexture("enemy"));
+    enemy = new GameObject(glm::vec2(500, 600 / 2.0f), glm::vec2((ResourceManager::GetTexture("enemy").Width/18), (ResourceManager::GetTexture("enemy").Height/18)), ResourceManager::GetTexture("enemy"));
+    //box = new GameObject(glm::vec2(player -> Position.x, player -> Position.y), glm::vec2(160, 149), ResourceManager::GetTexture("box"));
 
 
     //const Uint8* test = InputMap::keystate[SDL_SCANCODE_UP];
@@ -61,8 +64,16 @@ void game::Init()
 void game::Update(double deltaTime)
 {
     ImGui::Begin("Hello, world!");
-    ImGui::Text("Player PosX: %f", player->Position.x);
-    ImGui::Text("Player PosX: %f", enemy->Position.x); 
+    ImGui::Text("Player Pos: %f, %f", player->Position.x, player->Position.y);
+    ImGui::Text("Enemy Pos: %f, %f", enemy->Position.x,  enemy->Position.y);
+
+    ImGui::Text("Player Size: %f, %f", std::abs(player->Size.x), player->Size.y);
+    ImGui::Text("Enemy Size: %f, %f", enemy->Size.x,  enemy->Size.y);
+
+    ImGui::Text("Player Pos & Size: %f, %f", player->Position.x + std::abs(player->Size.x), player->Position.y + player->Size.y);
+    ImGui::Text("Enemy Pos & Size: %f, %f", enemy->Position.x + enemy->Size.x,  enemy->Position.y + enemy->Size.y); 
+    //ImDrawList::AddRect(ImVec2(0,0), ImVec2(400,400), 1, 0, 0, 0);
+    ImGui::GetForegroundDrawList()->AddRect(ImVec2(player -> Position.x, player -> Position.y), ImVec2(player -> Position.x + player -> Size.x, player -> Position.y + player -> Size.y), IM_COL32(0, 255, 0, 200), 0, 0, 10);
     ImGui::End();
     //Run Update on all objects
     if(this->State == GAME_ACTIVE)
@@ -110,7 +121,7 @@ void game::DoCollision(GameObject *obj, std::list<GameObject*> checkList)
 bool game::CheckCollisions(GameObject &one, GameObject &two) // AABB - AABB collision
 {
     // collision x-axis?
-    bool collisionX = one.Position.x + one.Size.x >= two.Position.x &&
+    bool collisionX = one.Position.x + std::abs(one.Size.x) >= two.Position.x &&
         two.Position.x + two.Size.x >= one.Position.x;
     // collision y-axis?
     bool collisionY = one.Position.y + one.Size.y >= two.Position.y &&

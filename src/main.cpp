@@ -10,8 +10,8 @@
 #include "game.h"
 #include "engine/resource_manager.h"
 
-const unsigned int SCREEN_WIDTH = 800;
-const unsigned int SCREEN_HEIGHT = 600;
+const unsigned int SCREEN_WIDTH = 1600;
+const unsigned int SCREEN_HEIGHT = 900;
 
 game stag(SCREEN_WIDTH, SCREEN_HEIGHT);
 
