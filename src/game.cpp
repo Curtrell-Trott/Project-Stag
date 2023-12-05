@@ -5,6 +5,7 @@
 
 //NOTE: COULD BE USEFUL FOR WINDOW REZ THINGS
 //https://stackoverflow.com/questions/47979639/how-is-it-possible-to-determine-the-correct-drawable-size-of-a-window-on-windows
+//Note: It FEELS like there is some input lag... Ever since I changed the game looping stuff and the deltaTime calculation
 SpriteRenderer  *Renderer;
 Player *player;
 GameObject  *enemy;
@@ -41,7 +42,7 @@ void game::Init()
     ResourceManager::LoadTexture("res\\sprites\\princess_swing1.png", true, "princess_swing1");
     ResourceManager::LoadTexture("res\\sprites\\princess_swing2.png", true, "princess_swing2");
     ResourceManager::LoadTexture("res\\sprites\\enemy.png", true, "enemy");
-    ResourceManager::LoadTexture("res\\sprites\\Sprite-0001.png", true, "box");
+    ResourceManager::LoadTexture("res\\sprites\\background.png", true, "bg");
 
     //start input handler
     //InputMap::Handler();
@@ -64,12 +65,12 @@ void game::Init()
     }
 }
 
-void game::Update(double deltaTime)
+void game::Update()
 {
-    ImGui::Begin("Hello");
+    //ImGui::Begin("Hello");
     //ImDrawList::AddRect(ImVec2(0,0), ImVec2(400,400), 1, 0, 0, 0);
-    ImGui::GetForegroundDrawList()->AddRect(ImVec2(player -> Position.x, player -> Position.y), ImVec2(player -> Position.x + player -> Size.x, player -> Position.y + player -> Size.y), IM_COL32(0, 255, 0, 200), 0, 0, 10);
-    ImGui::End();
+    //ImGui::GetForegroundDrawList()->AddRect(ImVec2(player -> Position.x, player -> Position.y), ImVec2(player -> Position.x + player -> Size.x, player -> Position.y + player -> Size.y), IM_COL32(0, 255, 0, 200), 0, 0, 10);
+    //ImGui::End();
     //Run Update on all objects
     if(this->State == GAME_ACTIVE)
     {
@@ -83,17 +84,19 @@ void game::Update(double deltaTime)
     }
 }
 
-void game::ProcessInput(double deltaTime)
+void game::ProcessInput()
 {
     InputMap::Handler();
-    player -> ProcessInput(deltaTime);
+    player -> ProcessInput(this -> deltaTime);
 }
 
 void game::Render()
 {
     if(this->State == GAME_ACTIVE){
+        Renderer->DrawSprite(ResourceManager::GetTexture("bg"), glm::vec2(0.0f, 0.0f), glm::vec2(this->width*3, this->height*3), 0.0f);
         for(GameObject* obj : GameObject::ObjList)
         {
+            Renderer->DrawSprite(obj -> Sprite, glm::vec2(obj -> Position.x-9, obj -> Position.y+7), glm::vec2(obj->Size.x, obj->Size.y), 0.0f, glm::vec4(0,0,0,0.3f));
             obj -> Draw(*Renderer);
         }
     }

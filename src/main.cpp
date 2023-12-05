@@ -67,35 +67,31 @@ int main(int argv, char** args)
     // ---------------
     stag.Init();
 
-    // deltaTime variables
+    // Tick and Frame counters
     // -------------------
-    Uint64 currentFrame = SDL_GetPerformanceCounter();
-    Uint64 lastFrame = 0.0f;
-    double deltaTime = 0.0f;
+	Uint32 totalFrameTicks = 0;
+	Uint32 totalFrames = 0;
 
     while (stag.State == GAME_ACTIVE)
     {
+        totalFrames++;
+		Uint32 startTicks = SDL_GetTicks();
+		Uint64 startPerf = SDL_GetPerformanceCounter();
+
         //Draw ImGUI things
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        //ImGui::ShowDemoWindow(); // Show demo window! :)
-
         //NOTE: MAYBE DONT DO THIS EVERY UPDATE
         int width, height;
         SDL_GetWindowSize(window, &width, &height);
-
-        //Calculate deltatime
-        lastFrame = currentFrame;
-        currentFrame = SDL_GetPerformanceCounter();
-
-        deltaTime =  ((currentFrame - lastFrame)*1000 / (double)SDL_GetPerformanceFrequency());
         
-        //Update functions
-        stag.Update(deltaTime);
-        stag.ProcessInput(deltaTime);
-
+        //GAME LOOPS RUN HERE
+        //--------------
+        //event updating
+        stag.Update();
+        stag.ProcessInput();
         SDL_Event e;
         if(SDL_PollEvent(&e))
         {
@@ -106,16 +102,33 @@ int main(int argv, char** args)
                 stag.State = GAME_QUIT;
             }   
         }
-        //Maybe add a fixed update?
-
+        //deltaTime calculation
+        Uint32 time = SDL_GetTicks();
+		stag.deltaTime = (time - stag.lastUpdate) / 1000.0f;
+        stag.lastUpdate = time;
         //render
         glViewport(0, 0, width, height);
         glClearColor(0.49f, 0.30f, 0.57f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         stag.Render();
         
+        // End frame timing
+		Uint32 endTicks = SDL_GetTicks();
+		Uint64 endPerf = SDL_GetPerformanceCounter();
+		Uint64 framePerf = endPerf - startPerf;
+		float frameTime = (endTicks - startTicks) / 1000.0f;
+		totalFrameTicks += endTicks - startTicks;
+        // Strings to display
+        if(ImGui::Begin("Perfomance tracker")){
+		ImGui::Text("Current FPS:  %f", (1.0f / frameTime));
+		ImGui::Text("Average FPS:  %f", (1000.0f / ((float)totalFrameTicks / totalFrames)));
+		ImGui::Text("Current Perf: %lld", (framePerf));
+        }
+        ImGui::End();
+        
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
 
         SDL_GL_SwapWindow(window);
     }

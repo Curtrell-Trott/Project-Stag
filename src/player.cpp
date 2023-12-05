@@ -6,18 +6,18 @@ Player::Player()
     Sprite = ResourceManager::GetTexture("princess_idle");
     //Size = glm::vec2(-200, 200);
     Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));
-    speed = 0.4f;
+    speed = 400;
+    Color = glm::vec4(1.0f);
     ObjList.push_front(this);
 }
 
 void GameObject::Init()
 {
-    //std::cout << "init Tick" << std::endl;
+    
 }
 void GameObject::Update(double deltaTime)
 {
     Position = glm::vec2(Position.x + (Velocity.x*deltaTime), Position.y + (Velocity.y*deltaTime)); 
-    Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));
 }
 void Player::ProcessInput(double deltaTime)
 {
@@ -48,6 +48,7 @@ void Player::ProcessInput(double deltaTime)
         attackTime = GameObject::Timer(attackTime);
         Sprite = ResourceManager::GetTexture("princess_swing2");
     }
+    Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));
 }
 
 void GameObject::OnCollision(GameObject* obj)

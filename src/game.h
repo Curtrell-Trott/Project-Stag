@@ -29,15 +29,16 @@ class game
     public:
         GameState State;
         unsigned int width, height;
-        
+        double deltaTime;
+        Uint64 lastUpdate;
         game(unsigned int width, unsigned int height);
         game();
         ~game();
 
         void Init();
-        void Update(double deltaTime);
         void AddObject(GameObject gameObject);
-        void ProcessInput(double deltaTime);
+        void Update();
+        void ProcessInput();
         void Render();
         void DoCollision(GameObject* obj, std::list<GameObject*> checkList);
         bool CheckCollisions(GameObject &one, GameObject &two);
