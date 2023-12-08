@@ -15,3 +15,6 @@ Today's Goal:
 -Box colliders independent from sprite size
 -checkerboard background with shadow cuz funny?
 
+---12/6/23---
+Goal: today. collision?
+the answer is mostly no. I now have a separate stuct that holds the collider data and seemingly works fine w/ the player, but when i tried to make a gizmo for the enemy its way off. i set the x = 1200 for the enemy but its suddenly 1263 when i run the game 

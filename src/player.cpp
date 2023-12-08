@@ -1,32 +1,41 @@
 #include "player.h"
 
-Player::Player()
+Player::Player(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec4 color, glm::vec2 velocity) : GameObject(pos, size, sprite, color, velocity)
 {
-    Position = glm::vec2(800 / 2.0f, 600 / 2.0f); //set position to the center of the screen
+    speed = 600;
     Sprite = ResourceManager::GetTexture("princess_idle");
-    //Size = glm::vec2(-200, 200);
-    Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));
-    speed = 400;
-    Color = glm::vec4(1.0f);
-    ObjList.push_front(this);
+    
+    col.setCollider(50, 120, 50, 50);
+
+    hit.setCollider(80, 40, 230, 200);
+    hit.mode = 2;
+    hit.isActive = false;
+
+    cols.push_back(col);
+    cols.push_back(hit);
 }
 
-void GameObject::Init()
+void Player::Init()
 {
     
 }
-void GameObject::Update(double deltaTime)
+void Player::Update(double deltaTime)
 {
     Position = glm::vec2(Position.x + (Velocity.x*deltaTime), Position.y + (Velocity.y*deltaTime)); 
+    for(Collider& col : cols)
+    {
+        col.x = (this -> Position.x + col.Ox);
+        col.y = (this -> Position.y + col.Oy);
+    }
 }
 void Player::ProcessInput(double deltaTime)
 {
     Velocity = glm::vec2(0,0);
     Sprite = ResourceManager::GetTexture("princess_idle");
+    cols[1].isActive = false;
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     if(keystate[SDL_SCANCODE_E])
         Velocity.y = -1 * speed;
-        //Position.y += -0.5f * deltaTime;
     if(keystate[SDL_SCANCODE_D])
         Velocity.y = 1 * speed;
     if(keystate[SDL_SCANCODE_F])
@@ -46,6 +55,7 @@ void Player::ProcessInput(double deltaTime)
     }
     else if(!keystate[SDL_SCANCODE_P] && attackTime > 0){
         attackTime = GameObject::Timer(attackTime);
+        cols[1].isActive = true;
         Sprite = ResourceManager::GetTexture("princess_swing2");
     }
     Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));

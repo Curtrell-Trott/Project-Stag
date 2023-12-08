@@ -1,6 +1,8 @@
 #include "glad/glad.h"
 #include "glm/glm.hpp"
+#include "engine/imgui/imgui.h"
 #include <list>
+#include <vector>
 #include <iostream>
 #include "SDL2/SDL.h"
  
@@ -11,6 +13,37 @@
 // Container object for holding all state relevant for a single
 // game object entity. Each object in the game likely needs the
 // minimal of state as described within GameObject.
+
+struct Collider
+{
+    int x,y,w,h;
+    int Ox, Oy;
+    bool isActive = true;
+    int mode = 1;
+
+    void setCollider(int x, int y, int w, int h)
+    {
+        this -> x = x;
+        this -> y = y;
+        this -> w = w;
+        this -> h = h;
+
+        Ox = x;
+        Oy = y;
+    }
+    void setPos(int x, int y)
+    {
+        this -> x = x;
+        this -> y = y;
+    }
+    void setSize(int w, int h)
+    {
+        this -> w = w;
+        this -> h = h;
+    }
+    //Update Position with the parent's position
+};
+
 class GameObject
 {
     private:
@@ -23,7 +56,10 @@ class GameObject
         glm::vec4   Color;
         float       Rotation;
         bool        IsSolid;
+        bool        Drawable = true;
         bool        Destroyed;
+        Collider    col;
+        std::vector<Collider> cols;
         // render state
         Texture2D   Sprite;	
         // constructor(s)
