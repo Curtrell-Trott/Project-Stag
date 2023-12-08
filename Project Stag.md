@@ -17,4 +17,9 @@ Today's Goal:
 
 ---12/6/23---
 Goal: today. collision?
-the answer is mostly no. I now have a separate stuct that holds the collider data and seemingly works fine w/ the player, but when i tried to make a gizmo for the enemy its way off. i set the x = 1200 for the enemy but its suddenly 1263 when i run the game 
+the answer is mostly no. I now have a separate stuct that holds the collider data and seemingly works fine w/ the player, but when i tried to make a gizmo for the enemy its way off. i set the x = 1200 for the enemy but its suddenly 1263 when i run the game
+
+---12/8/23---
+Now have a collider struct, game objects have a list of them, colliders have 2 modes: 1 is hurtbox and 2 is hitbox. They also contain a bool that is meant to tell whether they are active or not. Right now the player has a hurtbox and a hitbox set up. the hitbox is only visible when an attack is initiated. I feel like this is a decent basis to build the collision system on (at least relatively speaking). However, there seems to be a couples issues. Most notably is the fact that the collider boxes' position don't update when the window is scaled. The other concern I have is the potential need for nested for loops. 
+
+Visual: Root raised a pretty interesting idea. Having a sort of story book theme. Its certainly intriguing. I could work well w/ the medival fantasy aesthetic that I mentioned before
