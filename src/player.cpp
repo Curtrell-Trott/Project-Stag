@@ -4,15 +4,16 @@ Player::Player(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec4 color,
 {
     speed = 600;
     Sprite = ResourceManager::GetTexture("princess_idle");
-    
-    col.setCollider(50, 120, 50, 50);
+    BoxCollider test(this);
+
+    /*col.setCollider(50, 120, 50, 50);
 
     hit.setCollider(80, 40, 230, 200);
     hit.mode = 2;
     hit.isActive = false;
 
     cols.push_back(col);
-    cols.push_back(hit);
+    cols.push_back(hit);*/
 }
 
 void Player::Init()
@@ -22,17 +23,12 @@ void Player::Init()
 void Player::Update(double deltaTime)
 {
     Position = glm::vec2(Position.x + (Velocity.x*deltaTime), Position.y + (Velocity.y*deltaTime)); 
-    for(Collider& col : cols)
-    {
-        col.x = (this -> Position.x + col.Ox);
-        col.y = (this -> Position.y + col.Oy);
-    }
 }
 void Player::ProcessInput(double deltaTime)
 {
     Velocity = glm::vec2(0,0);
     Sprite = ResourceManager::GetTexture("princess_idle");
-    cols[1].isActive = false;
+    //cols[1].isActive = false;
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     if(keystate[SDL_SCANCODE_E])
         Velocity.y = -1 * speed;
@@ -55,15 +51,15 @@ void Player::ProcessInput(double deltaTime)
     }
     else if(!keystate[SDL_SCANCODE_P] && attackTime > 0){
         attackTime = GameObject::Timer(attackTime);
-        cols[1].isActive = true;
+        //cols[1].isActive = true;
         Sprite = ResourceManager::GetTexture("princess_swing2");
     }
     Size = glm::vec2((Sprite.Width/15), (Sprite.Height/15));
 }
 
-void GameObject::OnCollision(GameObject* obj)
+void Player::OnCollision(GameObject* obj)
 {
-    //std::cout << "made collision" << std::endl;
+    std::cout << "made collision" << std::endl;
     //Do something with the object that has been collided with
 }
 

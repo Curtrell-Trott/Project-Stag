@@ -74,8 +74,8 @@ void game::Update()
         for(GameObject* obj : GameObject::ObjList)
         {
             obj -> Update(deltaTime);
-
-            for(Collider col : obj -> cols){
+            /*for(Collider col : obj -> cols){
+                col.setPos(obj -> Position.x + col.x, obj -> Position.y + col.y);
                 //send the current obj and a list of the objs without the current obj
                 if(col.mode == 2 && col.isActive == true)
                     ImGui::GetForegroundDrawList()->AddRect(ImVec2(col.x, col.y), ImVec2(col.x + col.w, col.y + col.h), IM_COL32(255, 0, 0, 200), 0, 0, 10);
@@ -83,9 +83,16 @@ void game::Update()
                     ImGui::GetForegroundDrawList()->AddRect(ImVec2(col.x, col.y), ImVec2(col.x + col.w, col.y + col.h), IM_COL32(0, 255, 0, 200), 0, 0, 10);
             }
     
-            DoCollision(obj, GameObject::ObjList);
+            DoCollision(obj, GameObject::ObjList);*/
             //obj -> Collision(obj, ObjList.pop(obj)); // if i decide to do collision checks on the object side 
         }
+        for(BoxCollider* col : BoxCollider::colliders)
+        {
+            col->Update();
+            col->Collisions();
+        }
+        BoxCollider::index = (BoxCollider::index + 1) % BoxCollider::colliders.size();
+        //std::cout << BoxCollider::index << " ";
     }
 }
 
@@ -108,6 +115,7 @@ void game::Render()
         }
     }
 }
+
 void game::DoCollision(GameObject *obj, std::list<GameObject*> checkList)
 {
     //Loop thru the colliders of the objects 
@@ -121,7 +129,7 @@ void game::DoCollision(GameObject *obj, std::list<GameObject*> checkList)
 bool game::CheckCollisions(GameObject &one, GameObject &two) // AABB - AABB collision
 {
     // collision x-axis?
-    bool collisionX = one.Position.x + std::abs(one.Size.x) >= two.Position.x &&
+    bool collisionX = one.Position.x + one.Size.x >= two.Position.x &&
         two.Position.x + two.Size.x >= one.Position.x;
     // collision y-axis?
     bool collisionY = one.Position.y + one.Size.y >= two.Position.y &&
@@ -129,5 +137,4 @@ bool game::CheckCollisions(GameObject &one, GameObject &two) // AABB - AABB coll
     // collision only if on both axes
     return collisionX && collisionY;
 }
-
 

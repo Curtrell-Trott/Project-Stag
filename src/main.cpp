@@ -9,13 +9,16 @@
 
 #include "game.h"
 #include "engine/resource_manager.h"
+#include "engine/collider.h"
 
 const unsigned int SCREEN_WIDTH = 1600;
 const unsigned int SCREEN_HEIGHT = 900;
 
 game stag(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-std::list<GameObject*> GameObject::ObjList;
+std::list<GameObject*>      GameObject::ObjList;
+std::vector<BoxCollider*>    BoxCollider::colliders;
+int BoxCollider::index = 0;
 
 int main(int argv, char** args) 
 {

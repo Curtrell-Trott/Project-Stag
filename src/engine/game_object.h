@@ -28,8 +28,8 @@ struct Collider
         this -> w = w;
         this -> h = h;
 
-        Ox = x;
-        Oy = y;
+        //Ox = x;
+        //Oy = y;
     }
     void setPos(int x, int y)
     {
@@ -58,8 +58,8 @@ class GameObject
         bool        IsSolid;
         bool        Drawable = true;
         bool        Destroyed;
-        Collider    col;
-        std::vector<Collider> cols;
+        //Collider    col;
+        //std::vector<Collider> cols;
         // render state
         Texture2D   Sprite;	
         // constructor(s)
@@ -74,3 +74,35 @@ class GameObject
         virtual void OnCollision(GameObject* obj);
         
 };
+
+/*struct Collider
+{
+    GameObject *parent;
+    
+    int x,y,w,h;
+    int Ox, Oy;
+    bool isActive = true;
+    int mode = 1;
+
+    void setCollider(int x, int y, int w, int h)
+    {
+        this -> x = x;
+        this -> y = y;
+        this -> w = w;
+        this -> h = h;
+
+        //Ox = x;
+        //Oy = y;
+    }
+    void setPos(int x, int y)
+    {
+        this -> x = x;
+        this -> y = y;
+    }
+    void setSize(int w, int h)
+    {
+        this -> w = w;
+        this -> h = h;
+    }
+    //Update Position with the parent's position
+};*/

@@ -9,6 +9,7 @@
 #include "engine/sprite_renderer.h"
 #include "engine/game_object.h"
 #include "engine/input_handler.h"
+#include "engine/collider.h"
 
 #include "player.h"
 #include "enemy.h"
