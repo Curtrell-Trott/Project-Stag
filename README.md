@@ -17,4 +17,6 @@
 
 ## How to Run
 Run make file
-```.\build\main.exe```
+```
+.\build\main.exe
+```
