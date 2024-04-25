@@ -1,7 +1,7 @@
 # Project-Stag
 
-# Game Engine from Scratch Project   
-![showcase image](./assets/showcase.gif)
+## Game Engine from Scratch Project   
+![showcase image](./assets/Showcase.gif)
 
 ## Features
     * Game Loop
