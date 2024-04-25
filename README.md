@@ -11,7 +11,7 @@
 * Performance Tracker
 * Makefile Compiler
 
-## WIP features(?)
+## WIP features
 * AABB Collision
 * Frame by Frame animation
 
