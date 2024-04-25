@@ -16,5 +16,6 @@
 * Frame by Frame animation
 
 ## How to Run
-* Run make file
+Run make file
+
 ```.\build\main.exe```
